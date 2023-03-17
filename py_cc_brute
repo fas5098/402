@@ -1,3 +1,4 @@
+
 #Brute force Ceasar Cipher - Frank Scaltrito - (large)portions by Joe
 
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -24,11 +25,12 @@ def brute(ciphertext):
 
             except ValueError:
                 result += l
-        # print our results 
-        print('Modulus', n, result)
-        # move onto next modulus try 
+        # print our results
+        print('Modulus', n, ':', result)
+        input('Press enter to continue')
+        # move onto next modulus try
         n += 1
-        # reset result to empty 
+        # reset result to empty
         result = ''
     return result
 
