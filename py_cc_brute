@@ -30,4 +30,4 @@ def brute(ciphertext):
         result = ''
     return result
 
-decrypt('Jxov exa x ifqqib ixjy')
+brute('Jxov exa x ifqqib ixjy')
