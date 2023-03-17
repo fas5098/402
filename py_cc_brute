@@ -1,13 +1,12 @@
 #Brute force Ceasar Cipher 
 
 
-alphabet = 'abcdefghijklmnopqrstuvwxyz'
-ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
 def brute(ciphertext):
 
     result = ''
+    # n starts at 0 and we'll go through to 26
     n = 0
+    # while loop in order to go through all modulus variations
     while n <= 26:
         for l in ciphertext:
             try:
@@ -23,8 +22,11 @@ def brute(ciphertext):
 
             except ValueError:
                 result += l
+        # print our results 
         print('Modulus', n, result)
+        # move onto next modulus try 
         n += 1
+        # reset result to empty 
         result = ''
     return result
 
