@@ -1,4 +1,4 @@
-#Brute force Ceasar Cipher 
+#Brute force Ceasar Cipher - Frank Scaltrito - (large)portions by Joe
 
 
 def brute(ciphertext):
