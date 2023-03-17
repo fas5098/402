@@ -1,0 +1,31 @@
+#Brute force Ceasar Cipher 
+
+
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
+ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+def brute(ciphertext):
+
+    result = ''
+    n = 0
+    while n <= 26:
+        for l in ciphertext:
+            try:
+                if l.isupper():
+                    index = ALPHABET.index(l)
+                    i = (index + n) % 26
+                    result += ALPHABET[i]
+
+                else:
+                    index = alphabet.index(l)
+                    i = (index + n) % 26
+                    result += alphabet[i]
+
+            except ValueError:
+                result += l
+        print('Modulus', n, result)
+        n += 1
+        result = ''
+    return result
+
+decrypt('Jxov exa x ifqqib ixjy')
