@@ -1,5 +1,7 @@
 #Brute force Ceasar Cipher - Frank Scaltrito - (large)portions by Joe
 
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
+ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 def brute(ciphertext):
 
