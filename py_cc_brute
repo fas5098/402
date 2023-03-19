@@ -1,5 +1,5 @@
 
-#Brute force Ceasar Cipher - Frank Scaltrito - (large)portions by Joe
+#Brute force Ceasar Cipher - 
 
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
 ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
