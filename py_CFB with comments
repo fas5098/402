@@ -3,7 +3,7 @@ from Crypto.Cipher import AES
 # pad is set as an empty byte (b) string. If not converted to bytes here, it won't work with the encoded plaintext
 # later on
 pad = b' '
-# Create a key, and create an IV, both encoded to utf-8
+# Create a key, and create an IV, both encoded to utf-8. 16 byte key = 128 bit key
 obj = AES.new(bytes('This is a key123',encoding ='utf-8'), AES.MODE_CFB, bytes('This is an IV456',encoding ='utf8'))
 message = input("Enter a message to encrypt: ")
 # Encode our message to utf-8
