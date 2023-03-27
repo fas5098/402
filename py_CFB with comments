@@ -1,0 +1,23 @@
+from Crypto.Cipher import AES
+
+# pad is set as an empty byte (b) string. If not converted to bytes here, it won't work with the encoded plaintext
+# later on
+pad = b' '
+# Create a key, and create an IV, both encoded to utf-8
+obj = AES.new(bytes('This is a key123',encoding ='utf-8'), AES.MODE_CFB, bytes('This is an IV456',encoding ='utf8'))
+message = input("Enter a message to encrypt: ")
+# Encode our message to utf-8
+plaintext = message.encode('utf-8')
+# AES only deals with 16 byte blocks, adjust pad using mod function, makes 16 byte blocks
+length = 16 - (len(plaintext)%16)
+print(length)
+# Add the pad to our plaintext we entered
+plaintext += length*pad
+print(plaintext)
+# Punt to AES module to perform encryption
+ciphertext = obj.encrypt(plaintext)
+print(ciphertext)
+
+#Perform the decryption on the message
+obj2 = AES.new(bytes('This is a key123',encoding ='utf-8'), AES.MODE_CFB, bytes('This is an IV456',encoding ='utf8'))
+print(obj2.decrypt(ciphertext))
