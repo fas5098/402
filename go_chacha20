@@ -1,0 +1,42 @@
+package main
+
+import (
+	"fmt"
+	"golang.org/x/crypto/chacha20"
+)
+func main() {
+	key := []byte("01234567890123456789012345678901") // 32-byte key
+	nonce := []byte("123456789012")                   // 12-byte nonce
+	message := []byte("secret message")
+
+	// Create a new cipher instance
+	cipher, err := chacha20.NewUnauthenticatedCipher(key, nonce)
+	if err != nil {
+		fmt.Printf("Error creating cipher: %s\n", err)
+		return
+
+	}
+
+	// Encrypt the message
+	encrypted := make([]byte, len(message))
+	cipher.XORKeyStream(encrypted, message)
+
+
+	fmt.Printf("Cipher: %s\n", message)
+
+
+
+	// Decrypt the message
+	decrypted := make([]byte, len(message))
+	cipher, err = chacha20.NewUnauthenticatedCipher(key, nonce) // create a new cipher with the same key and nonce
+	if err != nil {
+		fmt.Printf("Error creating cipher: %s\n", err)
+		return
+	}
+	cipher.XORKeyStream(decrypted, encrypted)
+
+	// Print the original and decrypted message
+	fmt.Printf("Original message: %s\n", message)
+	fmt.Printf("Original message: %s\n", encrypted)
+	fmt.Printf("Decrypted message: %s\n", decrypted)
+}
