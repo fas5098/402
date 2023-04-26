@@ -1,0 +1,72 @@
+package main
+
+import (
+	"crypto/aes"
+	"crypto/cipher"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"fmt"
+	"io"
+)
+
+func main() {
+	// Generate an elliptic curve private key for the sender
+	senderKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		panic(err)
+	}
+
+	// Generate an elliptic curve private key for the receiver
+	receiverKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		panic(err)
+	}
+
+	// Compute the shared secret
+	sharedSecretX, _ := receiverKey.PublicKey.ScalarMult(senderKey.PublicKey.X, senderKey.PublicKey.Y, receiverKey.D.Bytes())
+	sharedSecret := sharedSecretX.Bytes()
+
+	// Convert the shared secret to a 32-byte key for AES-256 encryption
+	var key [32]byte
+	copy(key[:], sharedSecret)
+
+	// Get user input
+	var input string
+	fmt.Print("Enter a string to encrypt: ")
+	fmt.Scanln(&input)
+
+	// Convert the input string to a byte slice
+	plaintext := []byte(input)
+
+	// Generate a random 12-byte nonce for AES-GCM encryption Since ecdh is just for key exchange
+	nonce := make([]byte, 12)
+	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
+		panic(err)
+	}
+
+	// Create a new AES-GCM cipher block using the shared key and nonce
+	block, err := aes.NewCipher(key[:])
+	if err != nil {
+		panic(err)
+	}
+	aesgcm, err := cipher.NewGCM(block)
+	if err != nil {
+		panic(err)
+	}
+
+	// Encrypt the plaintext using AES-GCM encryption
+	ciphertext := aesgcm.Seal(nil, nonce, plaintext, nil)
+
+	// Print the ciphertext
+	fmt.Printf("Ciphertext: %x\n", ciphertext)
+
+	// Decrypt the ciphertext using AES-GCM decryption
+	decrypted, err := aesgcm.Open(nil, nonce, ciphertext, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	// Convert the decrypted byte slice to a string and print it
+	fmt.Printf("Decrypted: %s\n", decrypted)
+}
